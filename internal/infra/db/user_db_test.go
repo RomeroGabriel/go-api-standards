@@ -1,38 +1,12 @@
 package db
 
 import (
-	"database/sql"
-	"log"
-	"os"
 	"testing"
 
 	"github.com/RomeroGabriel/go-api-standards/internal/entity"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/stretchr/testify/assert"
 )
-
-func createDBFileName() string {
-	fileName := "test_db.db"
-	finalFileName := "./" + fileName
-	path, err := os.Getwd()
-	if err == nil {
-		finalFileName = path + "/" + fileName
-	} else {
-		log.Print(err.Error())
-	}
-	return finalFileName
-}
-
-func createDb() *sql.DB {
-	finalFileName := createDBFileName()
-	db, _ := sql.Open("sqlite3", finalFileName)
-	return db
-}
-
-func deleteDbTest() {
-	finalFileName := createDBFileName()
-	os.Remove(finalFileName)
-}
 
 func TestCreateUser(t *testing.T) {
 	db := createDb()
@@ -43,7 +17,7 @@ func TestCreateUser(t *testing.T) {
 	deleteDbTest()
 }
 
-func TestFindByEmail(t *testing.T) {
+func TestUserFindByEmail(t *testing.T) {
 	db := createDb()
 
 	userDB := NewUserDB(db)

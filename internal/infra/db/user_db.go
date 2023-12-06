@@ -18,7 +18,7 @@ func NewUserDB(db *sql.DB) *UserDB {
 	CREATE TABLE IF NOT EXISTS User 
 		(Id VARCHAR(255) NOT NULL PRIMARY KEY, Name VARCHAR(255), Email VARCHAR(255), Password VARCHAR(255));
 	`
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 	conn, err := db.Conn(ctx)
 	if err != nil {
@@ -36,9 +36,8 @@ func NewUserDB(db *sql.DB) *UserDB {
 
 func (u *UserDB) Create(user *entity.User) error {
 	ctx := context.Background()
-	conn, err := u.DB.Conn(ctx)
+	conn, err := acquireConnection(ctx, u.DB)
 	if err != nil {
-		log.Println("Error on func Create from User")
 		return err
 	}
 	defer conn.Close()
@@ -56,9 +55,8 @@ func (u *UserDB) Create(user *entity.User) error {
 
 func (u *UserDB) FindByEmail(email string) (*entity.User, error) {
 	ctx := context.Background()
-	conn, err := u.DB.Conn(ctx)
+	conn, err := acquireConnection(ctx, u.DB)
 	if err != nil {
-		log.Println("Error on func Create from User")
 		return nil, err
 	}
 	defer conn.Close()
