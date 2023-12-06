@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -153,7 +152,5 @@ func (p *ProductDB) FindAll(page, limit int, sort string) ([]entity.Product, err
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-	fmt.Println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-	fmt.Println(products)
 	return products, nil
 }
