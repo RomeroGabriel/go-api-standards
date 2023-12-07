@@ -8,7 +8,7 @@ import (
 
 func TestNewProduct(t *testing.T) {
 	name := "Product 1"
-	price := 10
+	price := 10.10
 	p, err := NewProduct(name, price)
 	assert.Nil(t, err)
 	assert.NotNil(t, p)

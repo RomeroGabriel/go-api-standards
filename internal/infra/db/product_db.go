@@ -66,10 +66,16 @@ func (p *ProductDB) FindByID(id string) (*entity.Product, error) {
 		return nil, err
 	}
 	var result entity.Product
-	err = stmt.QueryRowContext(ctx, id).Scan(&result.ID, &result.Name, &result.Price, &result.CreatedAt)
+	var date string
+	err = stmt.QueryRowContext(ctx, id).Scan(&result.ID, &result.Name, &result.Price, &date)
 	if err != nil {
 		return nil, err
 	}
+	dateTime, err := time.Parse("2006-01-02 15:04:05.999999999-03:00", date)
+	if err != nil {
+		return nil, err
+	}
+	result.CreatedAt = dateTime
 	return &result, nil
 }
 
