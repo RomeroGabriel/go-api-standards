@@ -87,7 +87,7 @@ func TestProductDelete(t *testing.T) {
 	assert.NoError(t, err)
 	pDB.Create(product)
 
-	err = pDB.Delete(product)
+	err = pDB.Delete(product.ID.String())
 	assert.NoError(t, err)
 	productFind, err := pDB.FindByID(product.ID.String())
 	assert.Error(t, err)

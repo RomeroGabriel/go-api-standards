@@ -101,8 +101,8 @@ func (p *ProductDB) Update(product *entity.Product) error {
 	return nil
 }
 
-func (p *ProductDB) Delete(product *entity.Product) error {
-	_, err := p.FindByID(product.ID.String())
+func (p *ProductDB) Delete(id string) error {
+	_, err := p.FindByID(id)
 	if err != nil {
 		return nil
 	}
@@ -116,7 +116,7 @@ func (p *ProductDB) Delete(product *entity.Product) error {
 	if err != nil {
 		return err
 	}
-	_, err = stmt.Exec(product.ID)
+	_, err = stmt.Exec(id)
 	if err != nil {
 		return err
 	}
