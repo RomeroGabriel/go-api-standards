@@ -8,6 +8,8 @@ import (
 
 	dbModule "github.com/RomeroGabriel/go-api-standards/internal/infra/db"
 	"github.com/RomeroGabriel/go-api-standards/internal/infra/webserver/handlers"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -18,9 +20,14 @@ func main() {
 	}
 	productDB := dbModule.NewProductDB(db)
 	productHandler := handlers.NewProductHandler(productDB)
-	http.HandleFunc("/", productHandler.CreateProduct)
+
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+
+	r.Post("/products", productHandler.CreateProduct)
+
 	fmt.Println("Server is listening on port 8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatal(err)
 	}
 
