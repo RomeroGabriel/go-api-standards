@@ -25,6 +25,8 @@ func main() {
 	r.Use(middleware.Logger)
 
 	r.Post("/products", productHandler.CreateProduct)
+	r.Get("/products/{id}", productHandler.GetByIDProduct)
+	r.Put("/products/{id}", productHandler.UpdateProduct)
 
 	fmt.Println("Server is listening on port 8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
