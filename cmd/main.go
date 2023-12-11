@@ -24,9 +24,11 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	r.Post("/products", productHandler.CreateProduct)
-	r.Get("/products/{id}", productHandler.GetByIDProduct)
-	r.Put("/products/{id}", productHandler.UpdateProduct)
+	r.Post("/product", productHandler.CreateProduct)
+	r.Get("/product/{id}", productHandler.GetByIDProduct)
+	r.Put("/product/{id}", productHandler.UpdateProduct)
+	r.Delete("/product/{id}", productHandler.DeleteProduct)
+	r.Get("/products", productHandler.GetProducts)
 
 	fmt.Println("Server is listening on port 8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {

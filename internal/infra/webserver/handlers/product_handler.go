@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/RomeroGabriel/go-api-standards/internal/dto"
 	"github.com/RomeroGabriel/go-api-standards/internal/entity"
@@ -85,4 +87,50 @@ func (h *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func (h *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	product, err := h.ProductDB.FindByID(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	err = h.ProductDB.Delete(id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(product)
+}
+
+func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
+	page := chi.URLParam(r, "page")
+	limit := chi.URLParam(r, "limit")
+	pageInt, err := strconv.Atoi(page)
+	if err != nil {
+		pageInt = 1
+	}
+	limitInt, err := strconv.Atoi(limit)
+	if err != nil {
+		limitInt = 10
+	}
+	sort := chi.URLParam(r, "sort")
+	if sort != "" {
+		sort = "asc"
+	}
+
+	products, err := h.ProductDB.FindAll(pageInt, limitInt, sort)
+	fmt.Println(products)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(products)
 }
