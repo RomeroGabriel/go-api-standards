@@ -20,6 +20,8 @@ func main() {
 	}
 	productDB := dbModule.NewProductDB(db)
 	productHandler := handlers.NewProductHandler(productDB)
+	userDb := dbModule.NewUserDB(db)
+	userHandler := handlers.NewUserHandler(userDb)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -29,6 +31,8 @@ func main() {
 	r.Put("/product/{id}", productHandler.UpdateProduct)
 	r.Delete("/product/{id}", productHandler.DeleteProduct)
 	r.Get("/products", productHandler.GetProducts)
+
+	r.Post("/user", userHandler.CreateUser)
 
 	fmt.Println("Server is listening on port 8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
