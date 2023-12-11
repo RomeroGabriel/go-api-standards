@@ -8,15 +8,15 @@ import (
 var cfg *conf
 
 type conf struct {
-	DBDriver      string `mapstrucute:"DB_DRIVER"`
-	DBHost        string `mapstrucute:"DB_HOST"`
-	DBPort        string `mapstrucute:"DB_PORT"`
-	DBUser        string `mapstrucute:"DB_USER"`
-	DBPassword    string `mapstrucute:"DB_PASSWORD"`
-	DBName        string `mapstrucute:"DB_NAME"`
-	WebServerPort string `mapstrucute:"WEB_SERVER_PORT"`
-	JWTSecret     string `mapstrucute:"JWT_SECRET"`
-	JWTExperesIn  int    `mapstrucute:"JWT_EXPIRESIN"`
+	DBDriver      string `mapstructure:"DB_DRIVER"`
+	DBHost        string `mapstructure:"DB_HOST"`
+	DBPort        string `mapstructure:"DB_PORT"`
+	DBUser        string `mapstructure:"DB_USER"`
+	DBPassword    string `mapstructure:"DB_PASSWORD"`
+	DBName        string `mapstructure:"DB_NAME"`
+	WebServerPort string `mapstructure:"WEB_SERVER_PORT"`
+	JWTSecret     string `mapstructure:"JWT_SECRET"`
+	JWTExperesIn  int    `mapstructure:"JWT_EXPIRESIN"`
 	TokenAuth     *jwtauth.JWTAuth
 }
 
