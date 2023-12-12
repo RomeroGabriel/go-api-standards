@@ -1,5 +1,6 @@
 POST http://localhost:8080/product HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzODM4NjAsInN1YiI6ImZhMjBmY2Y1LTU4ZjgtNGRjYy05OTgzLWQyZWFiM2RjYWE3YSJ9.WJEWCtbtOR8-Pc67Hr60o8rn5rX3v-A_tRSqn7cyx7A
 
 {
   "name": "My Product",
@@ -9,13 +10,16 @@ Content-Type: application/json
 
 GET http://localhost:8080/product/32142b15-b7c3-41d3-ab7c-bd24de68dc15 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzODM4NjAsInN1YiI6ImZhMjBmY2Y1LTU4ZjgtNGRjYy05OTgzLWQyZWFiM2RjYWE3YSJ9.WJEWCtbtOR8-Pc67Hr60o8rn5rX3v-A_tRSqn7cyx7A
 
 GET http://localhost:8080/products HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzOTEyOTksInN1YiI6ImZhMjBmY2Y1LTU4ZjgtNGRjYy05OTgzLWQyZWFiM2RjYWE3YSJ9.p9eYcuralWDziyOb0Kho0Q-ykZsfSNL9hPv7TG_0VhE
 
 
 PUT http://localhost:8080/product/32142b15-b7c3-41d3-ab7c-bd24de68dc15 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzODM4NjAsInN1YiI6ImZhMjBmY2Y1LTU4ZjgtNGRjYy05OTgzLWQyZWFiM2RjYWE3YSJ9.WJEWCtbtOR8-Pc67Hr60o8rn5rX3v-A_tRSqn7cyx7A
 
 {
   "name": "My Product UPDATE",
@@ -23,3 +27,4 @@ Content-Type: application/json
 }
 
 DELETE http://localhost:8080/product/32142b15-b7c3-41d3-ab7c-bd24de68dc15 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzODM4NjAsInN1YiI6ImZhMjBmY2Y1LTU4ZjgtNGRjYy05OTgzLWQyZWFiM2RjYWE3YSJ9.WJEWCtbtOR8-Pc67Hr60o8rn5rX3v-A_tRSqn7cyx7A

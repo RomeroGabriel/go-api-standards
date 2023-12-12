@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -13,16 +12,12 @@ import (
 )
 
 type UserHandler struct {
-	UserDB        db.UserInterface
-	Jwt           *jwtauth.JWTAuth
-	JwtExperiesIn int
+	UserDB db.UserInterface
 }
 
-func NewUserHandler(db db.UserInterface, jwt *jwtauth.JWTAuth, jwtExperiesIn int) *UserHandler {
+func NewUserHandler(db db.UserInterface) *UserHandler {
 	return &UserHandler{
-		UserDB:        db,
-		Jwt:           jwt,
-		JwtExperiesIn: jwtExperiesIn,
+		UserDB: db,
 	}
 }
 
@@ -49,6 +44,8 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
+	jwt := r.Context().Value("jwt").(*jwtauth.JWTAuth)
+	jwtExpiresIn := r.Context().Value("JWTExperesIn").(int)
 	var userJWT dto.GetJWTInput
 	err := json.NewDecoder(r.Body).Decode(&userJWT)
 	if err != nil {
@@ -64,17 +61,13 @@ func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	_, tokenString, err := h.Jwt.Encode(map[string]interface{}{
+	_, tokenString, err := jwt.Encode(map[string]interface{}{
 		"sub": u.ID.String(),
-		"exp": time.Now().Add(time.Second * time.Duration(h.JwtExperiesIn)).Unix(),
+		"exp": time.Now().Add(time.Second * time.Duration(jwtExpiresIn)).Unix(),
 	})
 	if err != nil {
-		fmt.Println(err.Error())
+		w.WriteHeader(http.StatusUnauthorized)
 	}
-	fmt.Println(tokenString)
-	fmt.Println(tokenString)
-	fmt.Println(tokenString)
-	fmt.Println(tokenString)
 	accessToken := dto.GetJWTOutput{AccessToken: tokenString}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)

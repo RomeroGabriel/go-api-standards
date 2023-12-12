@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -125,7 +124,6 @@ func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	products, err := h.ProductDB.FindAll(pageInt, limitInt, sort)
-	fmt.Println(products)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
