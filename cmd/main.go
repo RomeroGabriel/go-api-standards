@@ -7,14 +7,33 @@ import (
 	"net/http"
 
 	"github.com/RomeroGabriel/go-api-standards/configs"
+	_ "github.com/RomeroGabriel/go-api-standards/docs"
 	dbModule "github.com/RomeroGabriel/go-api-standards/internal/infra/db"
 	"github.com/RomeroGabriel/go-api-standards/internal/infra/webserver/handlers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/jwtauth"
 	_ "github.com/mattn/go-sqlite3"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// @title           Go Expert API Example
+// @version         1.0
+// @description     Product API with auhtentication
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   Wesley Willians
+// @contact.url    http://www.fullcycle.com.br
+// @contact.email  atendimento@fullcycle.com.br
+
+// @license.name   Full Cycle License
+// @license.url    http://www.fullcycle.com.br
+
+// @host      localhost:8000
+// @BasePath  /
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	db, err := sql.Open("sqlite3", "test.db")
 	if err != nil {
@@ -49,6 +68,8 @@ func main() {
 		r.Post("/", userHandler.CreateUser)
 		r.Post("/token", userHandler.GetJWT)
 	})
+
+	r.Get("/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8080/docs/doc.json")))
 
 	fmt.Println("Server is listening on port 8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
